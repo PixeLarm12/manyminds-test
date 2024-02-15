@@ -4,6 +4,7 @@
 
 - `composer install`
 - `npm install`
+- remove `env.example` and use `.env.example`
 - `cp .env.example .env`
 - remove `gitignore` and use `.gitignore`
 - change your values
