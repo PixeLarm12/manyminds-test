@@ -1,13 +1,11 @@
-# Basic template with Laravel & VueJS & TailwindCSS
+# Technical Test for ManyMinds
 
-## How to run
+## How to run (using Laravel Sail)
 
 - `composer install`
 - `npm install`
-- remove `env.example` and use `.env.example`
 - `cp .env.example .env`
-- remove `gitignore` and use `.gitignore`
-- change your values
 - `sail up`
+- `sail artisan key:generate`
 - `npm run dev`
 - access `localhost`
