@@ -4,10 +4,10 @@
             <th class="lg:pl-3 pl-1 py-3 xl:text-xl md:text-lg text-sm font-bold text-white bg-light-black">Code</th>
             <th class="lg:pl-3 pl-1 py-3 xl:text-xl md:text-lg text-sm font-bold text-white bg-light-black">Title</th>
             <th class="lg:pl-3 pl-1 py-3 xl:text-xl md:text-lg text-sm font-bold text-white bg-light-black">Price</th>
-            <th class="lg:pl-3 pl-1 py-3 xl:text-xl md:text-lg text-sm font-bold text-white bg-light-black">Actions</th>
+            <th v-if="!isDeleted" class="lg:pl-3 pl-1 py-3 xl:text-xl md:text-lg text-sm font-bold text-white bg-light-black">Actions</th>
         </tr>
 
-        <products-item-row v-for="(product, index) in products" :key="index" :product="product"></products-item-row>
+        <products-item-row v-for="(product, index) in products" :key="index" :product="product" :is-deleted="isDeleted"></products-item-row>
     </table>
 </template>
 
@@ -23,6 +23,11 @@ export default {
             type: Array,
             required: true,
             default: () => []
+        },
+        isDeleted: {
+            type: Boolean,
+            required: true,
+            default: false
         }
     }
 }

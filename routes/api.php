@@ -20,6 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::middleware('jwt.auth')->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/deleted', [ProductController::class, 'deleted'])->name('products.deleted');
     Route::get('/products/{product}', [ProductController::class, 'edit'])->name('products.edit');
 
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');

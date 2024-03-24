@@ -12,6 +12,11 @@ class ProductController extends Controller
         return response()->json(Product::all());
     }
 
+    public function deleted()
+    {
+        return response()->json(Product::onlyTrashed()->get());
+    }
+
     public function store(Request $request)
     {
         $request->validate([
