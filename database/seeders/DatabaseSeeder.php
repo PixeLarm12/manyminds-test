@@ -9,10 +9,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Manyminds User',
-            'email' => 'user.manyminds@gmail.com',
-            'password' => bcrypt('123123'),
-        ]);
+        $this->call(UserSeeder::class);
+        $this->call(ProductSeeder::class);
     }
 }
