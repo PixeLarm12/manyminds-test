@@ -9,29 +9,44 @@ class OrderController extends Controller
 {
     public function index()
     {
-        return response()->json(Order::all());
+        return response()->json(Order::active()->get());
+    }
+
+    public function finished()
+    {
+        return response()->json(Order::finished()->get());
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'supplier_id' => 'required|integer',
-            'status' => 'required|string',
-            'observation' => 'text',
+            'products' => 'required|array',
         ]);
 
-        return response()->json(
-            Order::create([
-                'supplier_id' => $request->supplier_id,
-                'status' => $request->status,
-                'observation' => $request->observation,
-            ])
-        );
+        $order = Order::create([
+            'supplier_id' => $request->supplier_id,
+            'status' => Order::ORDER_STATUS_ACTIVE,
+            'observation' => $request->observation,
+        ]);
+
+        foreach($request->products as $product) {
+            $order->products()->attach($product['id'], [
+                'amount' => $product['amount'],
+                'unit_price' => $product['price'],
+                'total_price' => $product['totalItemPrice'],
+            ]);
+        }
+
+        return response()->json($order);
     }
 
     public function edit(Order $order)
     {
-        return response()->json($order);
+        return response()->json([
+            'order' => $order,
+            'products' => $order->products()
+        ]);
     }
 
     public function update(Request $request, Order $order)
@@ -39,8 +54,21 @@ class OrderController extends Controller
         $request->validate([
             'supplier_id' => 'required|integer',
             'status' => 'required|string',
-            'observation' => 'text',
         ]);
+
+        $order->update([
+            'supplier_id' => $request->supplier_id,
+            'status' => $request->status,
+            'observation' => $request->observation,
+        ]);
+
+        foreach($request->products as $product) {
+            $order->products()->sync($product['id'], [
+                'amount' => $product['amount'],
+                'unit_price' => $product['price'],
+                'total_price' => $product['totalItemPrice'],
+            ]);
+        }
 
         return response()->json(
             $order->update([
@@ -53,6 +81,10 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
-        return $order ? $order->delete() : false;
+        if(! $order) {
+            return false;
+        }
+        
+        return $order->delete();
     }
 }

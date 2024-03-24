@@ -36,6 +36,7 @@ Route::middleware('jwt.auth')->group(function () {
 
     Route::prefix('orders')->name('orders.')->group(function(){
         Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/finished', [OrderController::class, 'finished'])->name('finished');
         Route::get('/{order}', [OrderController::class, 'edit'])->name('edit');
         
         Route::post('/', [OrderController::class, 'store'])->name('store');

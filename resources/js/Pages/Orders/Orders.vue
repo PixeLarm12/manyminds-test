@@ -12,12 +12,12 @@
                 </div>
             </div>
 
-            <div v-if="orders.length <= 0 && finishedOrders.length <= 0" class="lg:w-10/12 w-full lg:px-0 px-2 h-full flex justify-center items-center">
-                <h2 class="text-black text-5xl font-bold">We don't have orders saved yet! Consider adding a new one.</h2>
+            <div class="lg:w-10/12 w-full lg:px-0 px-2 h-full flex justify-center items-center">
+                <h2 v-if="orders.length <= 0 && finishedOrders.length <= 0" class="text-black text-5xl font-bold">We don't have orders saved yet! Consider adding a new one.</h2>
 
                 <orders-items-table v-if="!showFinishedTable && orders.length > 0" :orders="orders"></orders-items-table>
                 
-                <orders-items-table v-if="showFinishedTable && finishedOrders.length > 0" :orders="finishedOrders" :is-deleted="true"></orders-items-table>
+                <orders-items-table v-if="showFinishedTable && finishedOrders.length > 0" :orders="finishedOrders" :is-finished="true"></orders-items-table>
             </div>
         </section>
     </page-template>
@@ -34,7 +34,8 @@ export default {
             this.$router.go('/login')
         }
 
-        this.getOrders()
+        this.getOrders();
+        this.getFinishedOrders();
     },
     components: {
         PageTemplate,
@@ -48,11 +49,19 @@ export default {
                 })
             .catch(error => console.log(error));
         },
+        async getFinishedOrders() {
+            await axios.get("/api/orders/finished", { headers: this.headers })
+            .then(response => {
+                    this.finishedOrders = response.data;
+                })
+            .catch(error => console.log(error));
+        },
     },
     data() {
         return {
             orders: [],
             finishedOrders: [],
+            showFinishedTable: false,
             headers: { 
                 "Authorization": 'Bearer ' + localStorage.getItem('jwt_token') 
             }
