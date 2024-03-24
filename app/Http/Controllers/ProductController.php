@@ -17,7 +17,7 @@ class ProductController extends Controller
         $request->validate([
             'code' => 'required|min:8|max:12',
             'title' => 'required|max:128',
-            'price' => 'required|decimal',
+            'price' => 'required|numeric',
         ]);
 
         return response()->json(

@@ -6,6 +6,10 @@
     @apply w-full py-4 bg-light-black text-white xl:text-2xl text-xl font-semibold rounded-md hover:scale-105 duration-200 flex items-center justify-center;
 }
 
+.button-secondary {
+    @apply w-full py-4 bg-white text-black xl:text-2xl text-xl font-semibold rounded-md hover:scale-105 duration-200 flex items-center justify-center;
+}
+
 .nav-item {
     @apply text-white text-xl font-semibold uppercase hover:underline;
 }
