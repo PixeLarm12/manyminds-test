@@ -17,6 +17,10 @@ class Order extends Model
         'observation'
     ];
 
+    public function products() {
+        return $this->belongsToMany(Product::class)->withPivot(['amount', 'unit_price', 'total_price']);
+    }
+
     public static function getStatusByKey($key) 
     {
         $data = self::getStatus();
