@@ -29,12 +29,17 @@ class ProductController extends Controller
         );
     }
 
+    public function edit(Product $product)
+    {
+        return response()->json($product);
+    }
+
     public function update(Request $request, Product $product)
     {
         $request->validate([
             'code' => 'required|min:8|max:12',
             'title' => 'required|max:128',
-            'price' => 'required|decimal',
+            'price' => 'required|numeric',
         ]);
 
         return response()->json(

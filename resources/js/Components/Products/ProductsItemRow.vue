@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     props: {
         product: {
@@ -22,9 +24,15 @@ export default {
         }
     },
     methods: {
-        remove() {
-            console.log("Remove Item");
-        }
+        async remove() {
+            await axios.delete(`/api/products/${this.product.id}`, { headers: {"Authorization": 'Bearer ' + localStorage.getItem('jwt_token')}})
+                .then(response => {
+                    if(response) {
+                        this.$router.go(this.$router.currentRoute)
+                    } 
+                })
+                .catch(error => console.log(error));
+        },
     }
 }
 </script>
