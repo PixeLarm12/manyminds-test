@@ -110,7 +110,7 @@ export default {
                     if(! response.data) {
                         this.errors.save = "An error occurred when trying to SAVE new Product. Try again later.";
                     } else {
-                        this.$router.push('/products')
+                        this.$router.push('/')
                     } 
                 })
                 .catch(error => console.log(error));
@@ -128,7 +128,7 @@ export default {
                    if(! response.data) {
                         this.errors.save = "An error occurred when trying to UPDATE new Product. Try again later.";
                     } else {
-                        this.$router.push('/products')
+                        this.$router.push('/')
                     } 
                 })
                 .catch(error => console.log(error));

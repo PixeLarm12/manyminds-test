@@ -1,4 +1,6 @@
 <template>
+    <default-header></default-header>
+    
     <page-template title="All products">
         <section id="all-products" class="w-full min-h-[40vh] flex flex-col justify-center items-center">
             <div class="lg:w-10/12 w-full flex flex-row justify-start items-center lg:h-16 h-10 gap-4">
@@ -27,6 +29,7 @@
 import axios from 'axios';
 import PageTemplate from "../../Components/PageTemplate.vue"
 import ProductsItemsTable from '../../Components/Products/ProductsItemsTable.vue'
+import DefaultHeader from '../../Components/DefaultHeader.vue';
 
 export default {
     beforeMount() {
@@ -39,7 +42,8 @@ export default {
     },
     components: {
         PageTemplate,
-        ProductsItemsTable
+        ProductsItemsTable,
+        DefaultHeader
     },
     methods: {
         async getProducts() {
