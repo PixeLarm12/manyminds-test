@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +21,28 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::middleware('jwt.auth')->group(function () {
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/deleted', [ProductController::class, 'deleted'])->name('products.deleted');
-    Route::get('/products/{product}', [ProductController::class, 'edit'])->name('products.edit');
-    Route::get('/products/restore/{id}', [ProductController::class, 'restore'])->name('products.restore');
+    Route::prefix('products')->name('products.')->group(function(){
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/deleted', [ProductController::class, 'deleted'])->name('deleted');
+        Route::get('/{product}', [ProductController::class, 'edit'])->name('edit');
+        Route::get('/restore/{id}', [ProductController::class, 'restore'])->name('restore');
+    
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::post('/{product}', [ProductController::class, 'update'])->name('update');
+    
+        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+    });
 
-    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    Route::post('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 
-    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.delete');
+    Route::prefix('orders')->name('orders.')->group(function(){
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/{order}', [OrderController::class, 'edit'])->name('edit');
+        
+        Route::post('/', [OrderController::class, 'store'])->name('store');
+        Route::post('/{order}', [OrderController::class, 'update'])->name('update');
+        
+        Route::delete('/{order}', [OrderController::class, 'destroy'])->name('destroy');
+    });
+    
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
 });
