@@ -60,4 +60,11 @@ class ProductController extends Controller
     {
         return $product ? $product->delete() : false;
     }
+
+    public function restore($id)
+    {
+        $product = Product::withTrashed()->find($id);
+
+        return $product ? $product->restore() : false;
+    }
 }

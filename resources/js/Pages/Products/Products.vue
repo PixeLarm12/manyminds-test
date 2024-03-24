@@ -30,6 +30,10 @@ import ProductsItemsTable from '../../Components/Products/ProductsItemsTable.vue
 
 export default {
     beforeMount() {
+        if(! localStorage.getItem('jwt_token')) {
+            this.$router.go('/login')
+        }
+
         this.getProducts()
         this.getDeleteProducts()
     },

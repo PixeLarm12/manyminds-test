@@ -9,6 +9,12 @@
                 <button class="hover:underline" @click="remove()">Remove</button>
             </div>
         </td>
+
+        <td v-if="isDeleted" class="lg:pl-3 pl-1 py-2 w-1/12">
+            <div class="w-full flex justify-start lg:gap-6 gap-1">
+                <button class="hover:underline" @click="restore()">Restore</button>
+            </div>
+        </td>
     </tr>
 </template>
 
@@ -30,7 +36,17 @@ export default {
     },
     methods: {
         async remove() {
-            await axios.delete(`/api/products/${this.product.id}`, { headers: {"Authorization": 'Bearer ' + localStorage.getItem('jwt_token')}})
+            await axios.delete(`/api/products/${this.product.id}`, { headers: this.headers})
+                .then(response => {
+                    if(response) {
+                        this.$router.go(this.$router.currentRoute)
+                    } 
+                })
+                .catch(error => console.log(error));
+        }, 
+        
+        async restore() {
+            await axios.get(`/api/products/restore/${this.product.id}`, { headers: this.headers})
                 .then(response => {
                     if(response) {
                         this.$router.go(this.$router.currentRoute)
@@ -38,6 +54,13 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
+    },
+    data() {
+        return {
+            headers: {
+                "Authorization": 'Bearer ' + localStorage.getItem('jwt_token')
+            }
+        }
     }
 }
 </script>

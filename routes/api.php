@@ -22,6 +22,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/deleted', [ProductController::class, 'deleted'])->name('products.deleted');
     Route::get('/products/{product}', [ProductController::class, 'edit'])->name('products.edit');
+    Route::get('/products/restore/{id}', [ProductController::class, 'restore'])->name('products.restore');
 
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::post('/products/{product}', [ProductController::class, 'update'])->name('products.update');
