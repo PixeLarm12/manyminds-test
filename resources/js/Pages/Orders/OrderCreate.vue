@@ -39,7 +39,7 @@
                                 <th class="bg-gray-400 text-black font-bold text-lg">Amount</th>
                                 <th class="bg-gray-400 text-black font-bold text-lg">Unit. Price</th>
                                 <th class="bg-gray-400 text-black font-bold text-lg">Total</th>
-                                <th class="bg-gray-400 text-black font-bold text-lg">-</th>
+                                <th class="bg-gray-400 text-black font-bold text-lg"> - </th>
                             </tr>
 
                             <tr v-for="item in selectedProducts" :key="item.id" class="w-full bg-white border border-black divide-x-2 divide-black">
@@ -49,7 +49,7 @@
                                 </th>
                                 <th class="text-black text-lg w-2/12">{{ item.price }}</th>
                                 <th class="text-black text-lg w-2/12">{{ getTotalPrice(item) }}</th>
-                                <th class="text-black text-lg w-1/12">-</th>
+                                <th class="text-black text-lg w-1/12"><span @click="removeItem(item)" class="text-xl font-bold text-black hover:underline hover:cursor-pointer">X</span></th>
                             </tr>
                         </table>
                     </div>
@@ -226,6 +226,9 @@ export default {
             item.totalItemPrice = (item.price * item.amount).toFixed(2);
             
             return item.totalItemPrice;
+        },
+        removeItem(item) {
+            this.selectedProducts.shift(item);
         }
     },
 }
