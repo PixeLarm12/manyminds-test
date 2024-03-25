@@ -45,7 +45,7 @@ class OrderController extends Controller
     {
         return response()->json([
             'order' => $order,
-            'products' => $order->products()
+            'products' => $order->products()->get()
         ]);
     }
 
@@ -53,30 +53,26 @@ class OrderController extends Controller
     {
         $request->validate([
             'supplier_id' => 'required|integer',
-            'status' => 'required|string',
+            'products' => 'required|array',
         ]);
 
         $order->update([
             'supplier_id' => $request->supplier_id,
-            'status' => $request->status,
+            'status' => $order->status,
             'observation' => $request->observation,
         ]);
+        
+        $order->products()->detach();
 
         foreach($request->products as $product) {
-            $order->products()->sync($product['id'], [
+            $order->products()->attach($product['id'], [
                 'amount' => $product['amount'],
                 'unit_price' => $product['price'],
                 'total_price' => $product['totalItemPrice'],
             ]);
         }
 
-        return response()->json(
-            $order->update([
-                'supplier_id' => $request->supplier_id,
-                'status' => $request->status,
-                'observation' => $request->observation,
-            ])
-        );
+        return response()->json($order);
     }
 
     public function destroy(Order $order)

@@ -90,6 +90,7 @@ export default {
             selectedProduct: {},
             selectedProducts: [],
             order: {
+                id: '',
                 supplier_id: '',
                 observation: '',
             },
@@ -119,7 +120,7 @@ export default {
         submitForm() {
             this.validateForm();
 
-            if(this.$route.params.id) {
+            if(this.order.id) {
                 this.update();
             } else {
                 this.save();
@@ -147,10 +148,23 @@ export default {
             await axios.get(`/api/orders/${this.$route.params.id}`, { headers: {"Authorization": 'Bearer ' + localStorage.getItem('jwt_token')} })
                 .then(response => {
                     if(response.data) {
-                        this.order.id = response.data.id;
-                        this.order.supplier_id = response.data.supplier_id;
-                        this.order.observation = response.data.observation;
-                        this.selectedProducts = response.data.products;
+                        this.order.id = response.data.order.id;
+                        this.order.supplier_id = response.data.order.supplier_id;
+                        this.order.observation = response.data.order.observation;
+                        let products = [];
+
+                        response.data.products.forEach(product => {
+                            products.push({
+                                "id": product.id,
+                                "title": product.title,
+                                "price": product.price,
+                                "code": product.code,
+                                "amount": product.pivot.amount,
+                                "totalItemPrice": product.pivot.total_price,
+                            });
+                        });
+
+                        this.selectedProducts = products;
                     }
                 })
                 .catch(error => console.log(error));
@@ -179,7 +193,7 @@ export default {
                 "products": this.selectedProducts
             }
             await axios.post(
-                `/api/orders/${this.product.id}`, data, { headers: this.headers })
+                `/api/orders/${this.order.id}`, data, { headers: this.headers })
                 .then(response => {
                    if(! response.data) {
                         this.errors.save = "An error occurred when trying to UPDATE new Order. Try again later.";
