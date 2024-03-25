@@ -1,4 +1,6 @@
 <template>
+    <default-header></default-header>
+    
     <div class="w-screen min-h-[100vh]">
         <div class="w-screen bg-product-banner bg-no-repeat bg-cover bg-center min-h-[30vh] flex justify-center items-center">
             <div class="w-screen bg-black bg-opacity-75 min-h-[30vh] flex justify-center items-center">
@@ -13,6 +15,8 @@
 </template>
 
 <script>
+import DefaultHeader from './DefaultHeader.vue'
+
 export default {
     props: {
         title:{
@@ -20,6 +24,9 @@ export default {
             required:true,
             default: ""
         },
+    },
+    components: {
+        DefaultHeader
     }
 }
 </script>

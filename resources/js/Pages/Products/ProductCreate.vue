@@ -6,17 +6,17 @@
 
                 <form @submit.prevent="submitForm()" method="POST" class="xl:w-6/12 h-full px-4 grid grid-cols-12 gap-6 place-items-center place-content-center">
                     <div class="col-span-12 w-full">
-                        <label for="title" class="text-white text-2xl font-semibold">Product's Title</label><br>
+                        <label for="title" class="text-white text-2xl font-semibold">Product's Title <span class="font-bold text-red-600 text-xl">*</span></label><br>
                         <input type="text" id="title" v-model="product.title" name="title" placeholder="Type the product's title" class="w-full h-10 px-5 rounded-md border border-black border-opacity-80" required>
                     </div>
                     
                     <div class="md:col-span-6 col-span-12 w-full">
-                        <label for="title" class="text-white text-2xl font-semibold">Product's Code</label><br>
+                        <label for="title" class="text-white text-2xl font-semibold">Product's Code <span class="font-bold text-red-600 text-xl">*</span></label><br>
                         <input type="text" id="code" v-model="product.code" name="code" placeholder="Type the product's code" class="w-full h-10 px-5 rounded-md border border-black border-opacity-80" required>
                     </div>
 
                     <div class="md:col-span-6 col-span-12 w-full">
-                        <label for="price" class="text-white text-2xl font-semibold">Product's Price ($)</label><br>
+                        <label for="price" class="text-white text-2xl font-semibold">Product's Price ($) <span class="font-bold text-red-600 text-xl">*</span></label><br>
                         <input type="number" step=".01" id="price" v-model="product.price" name="price" placeholder="Type the product's price" class="w-full h-10 px-5 rounded-md border border-black border-opacity-80" required>
                     </div>
                     
@@ -110,7 +110,7 @@ export default {
                     if(! response.data) {
                         this.errors.save = "An error occurred when trying to SAVE new Product. Try again later.";
                     } else {
-                        this.$router.push('/products')
+                        this.$router.push('/')
                     } 
                 })
                 .catch(error => console.log(error));
@@ -128,7 +128,7 @@ export default {
                    if(! response.data) {
                         this.errors.save = "An error occurred when trying to UPDATE new Product. Try again later.";
                     } else {
-                        this.$router.push('/products')
+                        this.$router.push('/')
                     } 
                 })
                 .catch(error => console.log(error));

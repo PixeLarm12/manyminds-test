@@ -39,7 +39,7 @@ export default {
     },
     components: {
         PageTemplate,
-        ProductsItemsTable
+        ProductsItemsTable,
     },
     methods: {
         async getProducts() {
