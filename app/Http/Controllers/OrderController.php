@@ -17,6 +17,13 @@ class OrderController extends Controller
         return response()->json(Order::finished()->get());
     }
 
+    public function finishOrder(Order $order)
+    {
+        return response()->json($order->update([
+            'status' => Order::ORDER_STATUS_FINISHED
+        ]));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
